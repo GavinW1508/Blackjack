@@ -67,17 +67,102 @@ void playblackjack()
 
 	while(1)
 	{
-		printf("your cards: \n");
+		printf("your cards: ");
+
 		for(i = 0; i < playercards; i++)
 		{
 			printf("%d ", playerhand[i]);
 		}
-		printf("your score is: \n", playerscore);
+		printf("\nyour score is: %d\n", playerscore);
 
+		printf("the dealers known card is: %d\n", dealerhand[0]);
 
+		if(playerscore == blackjack)
+		{
+			printf("\n");
+			printf("CONGRATS, YOU WIN!\n");
+			return;
+		}
+
+		else if(playerscore > blackjack)
+		{
+			printf("\n");
+			printf("BUST! YOU LOSE :(\n");
+			return;
+		}
+
+		char choice;
+		printf("hit (h) or stand (s): ");
+		scanf(" %c", &choice);
+		printf("\n");
+
+		if(choice == 'h' || choice == 'H')
+		{
+			playerhand[playercards++] = drawcard();
+			playerscore = calcscore(playerhand, playercards);
+		}
+		else if(choice == 's' || choice == 'S')
+		{
+			break;
+		}
+		else
+		{
+			printf("invalid input please try again\n");
+		}
+	}
+	printf("\n");
+	printf("DEALERS TURN\n");
+	while(dealerscore < dealerstand)
+	{
+		dealerhand[dealercards++] = drawcard();
+		dealerscore = calcscore(dealerhand, dealercards);
+	}
+	printf("your final hand: ");
+	for(int i = 0; i < playercards; i++)
+	{
+		printf("%d ", playerhand[i]);
+	}
+	printf("\nyour score is: %d\n", playerscore);
+
+	printf("dealers final hand: ");
+	for(int i = 0; i < dealercards; i++)
+	{
+		printf("%d ", dealerhand[i]);
+	}
+	printf("\ndealers score is: %d\n", dealerscore);
+	printf("\n");
+
+	if(dealerscore > blackjack)
+	{
+		printf("DEALER BUSTS, YOU WIN!\n");
+	}
+	else if(playerscore > dealerscore)
+	{
+		printf("CONGRATS, YOU WIN!\n");
+	}
+	else if(playerscore < dealerscore)
+	{
+		printf("DEALER WINS, YOU LOSE :(\n");
+	}
+	else
+	{
+		printf("PUSH\n");
+	}
 }
 int main()
 {
+	char playagain;
+
+	do{
+		startdeck();
+		playblackjack();
+
+		printf("would you like to play again? (y/n): ");
+		scanf(" %c", &playagain);
+		printf("\n");
+	} while(playagain == 'y' || playagain == 'Y');
+
+	printf("thanks for playing!\n");
 
 	return 0;
 }
