@@ -30,9 +30,52 @@ void startdeck()
 
 int drawcard()
 {
-	return deck[deckpostion++];
+	return deck[deckposition++];
 }
 
+int calcscore(int hand[], int numcards)
+{
+	int score = 0, aces = 0, i;
+
+	for(i = 0; i < numcards; i++)
+	{
+		score += hand[i];
+		if(hand[i] == 11)
+		{
+			aces++;
+		}
+	}
+	while(score > blackjack && aces > 0)
+	{
+		score -= 10;
+		aces--;
+	}
+	return score;
+}
+
+void playblackjack()
+{
+	int playerhand[10], dealerhand[10], playercards = 0, dealercards = 0, i;
+
+	playerhand[playercards++] = drawcard();
+    dealerhand[dealercards++] = drawcard();
+    playerhand[playercards++] = drawcard();
+    dealerhand[dealercards++] = drawcard();
+
+    int playerscore = calcscore(playerhand, playercards);
+    int dealerscore = calcscore(dealerhand, dealercards);
+
+	while(1)
+	{
+		printf("your cards: \n");
+		for(i = 0; i < playercards; i++)
+		{
+			printf("%d ", playerhand[i]);
+		}
+		printf("your score is: \n", playerscore);
+
+
+}
 int main()
 {
 
